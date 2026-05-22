@@ -7,15 +7,30 @@ const plantSchema = new mongoose.Schema({
     trim: true,
     maxlength: [100, 'Name cannot exceed 100 characters']
   },
+  urduName: {
+    type: String,
+    trim: true,
+    default: ''
+  },
   description: {
     type: String,
     required: [true, 'Description is required'],
     trim: true
   },
+  urduDescription: {
+    type: String,
+    trim: true,
+    default: ''
+  },
   benefits: {
     type: String,
     required: [true, 'Benefits are required'],
     trim: true
+  },
+  urduBenefits: {
+    type: String,
+    trim: true,
+    default: ''
   },
   wateringGuide: {
     type: String,
@@ -38,6 +53,32 @@ const plantSchema = new mongoose.Schema({
     required: [true, 'Category is required'],
     enum: ['Indoor', 'Outdoor', 'Medicinal', 'Flowering', 'Succulent', 'Vegetable', 'Herb', 'Tree'],
     default: 'Indoor'
+  },
+  soilType: {
+    type: String,
+    enum: ['Sandy', 'Clay', 'Loamy', 'Any'],
+    default: 'Any'
+  },
+  growingSeason: {
+    type: String,
+    enum: [
+      'Spring (March–May)',
+      'Summer (June–August)',
+      'Autumn (September–November)',
+      'Winter (December–February)',
+      'Year Round'
+    ],
+    default: 'Year Round'
+  },
+  temperatureRange: {
+    type: String,
+    trim: true,
+    default: ''
+  },
+  plantLifespan: {
+    type: String,
+    enum: ['Annual', 'Biennial', 'Perennial'],
+    default: 'Perennial'
   },
   imageUrl: {
     type: String,
