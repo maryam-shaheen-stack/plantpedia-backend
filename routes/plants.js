@@ -84,9 +84,19 @@ router.get('/admin/all', protect, adminOnly, async (req, res) => {
 // @route POST /api/plants — Submit a new plant
 router.post('/', protect, async (req, res) => {
   try {
-    const { name, description, benefits, wateringGuide, sunlightRequirement, growthMethod, category } = req.body;
+    const {
+      name, urduName,
+      description, urduDescription,
+      benefits, urduBenefits,
+      wateringGuide, sunlightRequirement,
+      growthMethod, category,
+      soilType, growingSeason,
+      temperatureRange, plantLifespan
+    } = req.body;
 
-    if (!name || !description || !benefits || !wateringGuide || !sunlightRequirement || !growthMethod || !category) {
+    if (!name || !description || !benefits || !wateringGuide ||
+        !sunlightRequirement || !growthMethod || !category ||
+        !soilType || !growingSeason || !plantLifespan) {
       return res.status(400).json({ success: false, message: 'Please fill all required fields' });
     }
 
@@ -105,16 +115,21 @@ router.post('/', protect, async (req, res) => {
         imagePublicId = result.public_id;
       } catch (uploadErr) {
         console.error('Image upload failed:', uploadErr.message);
-        // continues without image
       }
     }
 
     const plant = await Plant.create({
-      name, description, benefits, wateringGuide,
-      sunlightRequirement, growthMethod, category,
-      imageUrl, imagePublicId,
-      submittedBy: req.user._id,
-      status: 'pending'
+      name,          urduName:        urduName        || '',
+      description,   urduDescription: urduDescription || '',
+      benefits,      urduBenefits:    urduBenefits    || '',
+      wateringGuide, sunlightRequirement,
+      growthMethod,  category,
+      soilType,      growingSeason,
+      temperatureRange: temperatureRange || '',
+      plantLifespan,
+      imageUrl,      imagePublicId,
+      submittedBy:   req.user._id,
+      status:        'pending'
     });
 
     res.status(201).json({
